@@ -12,8 +12,6 @@
 <br>
 
 
-# Lego Recognizer For Robotics Purpose
-
 ## Prerequisites: Ubuntu 20.04, ROS Noetic, Gazebo_ros, catkin_tools, PyTorch, yolov5 and dependencies.
 
 Lego_recognizer is a project I made for Fundamentals of Robotics course. This is the vision component of the project [Fundamental Of Robotics]().
