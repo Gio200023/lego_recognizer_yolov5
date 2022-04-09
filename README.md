@@ -1,3 +1,17 @@
+<p align="center">
+  <a href="">
+    <img src="https://github.com/pietrolechthaler/UniTn-MorphingNetworkSlices/blob/main/logo.png">
+  </a>
+  <h2 align="center">Lego Recognizer</h2>
+
+  <p align="center">
+  Exam project for Fundamentals of Robotics
+  <br>University of Trento 
+  </p>
+</p>
+<br>
+
+
 # Lego Recognizer For Robotics Purpose
 
 ## Prerequisites: Ubuntu 20.04, ROS Noetic, Gazebo_ros, catkin_tools, PyTorch, yolov5 and dependencies.
