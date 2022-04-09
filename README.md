@@ -1,6 +1,6 @@
 <p align="center">
   <a href="">
-    <img src="">
+    <img src="https://github.com/Gio200023/lego_recognizer_yolov5/blob/main/logo1.png">
   </a>
   <h2 align="center">Lego Recognizer</h2>
 
