@@ -1,6 +1,6 @@
 <p align="center">
   <a href="">
-    <img src="https://github.com/pietrolechthaler/UniTn-MorphingNetworkSlices/blob/main/logo.png">
+    <img src="https://github.com/Gio200023/lego_recognizer_yolov5/blob/main/logo.png">
   </a>
   <h2 align="center">Lego Recognizer</h2>
 
