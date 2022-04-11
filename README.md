@@ -24,7 +24,7 @@ The purpose of this repo is to recognize which of the several different Lego Blo
 
 <hr>
 
-## Environment Setup
+## Environment Setup 
 
 Follow this [guide]() to setup the Gazebo_ros world and ros itself. 
 
