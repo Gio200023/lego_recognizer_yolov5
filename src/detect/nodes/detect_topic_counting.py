@@ -13,10 +13,10 @@ from detect.msg import cord
 from PIL import ImageGrab
 
 #change absolute path to your best.pt path
-best='/home/gio/robotica/best.pt'
-model = torch.hub.load('/home/gio/yolov5','custom',path=best, source='local', classes=11)
+best='/home/gio/Desktop/usiamo_questi.pt'
+model = torch.hub.load('/home/gio/yolov5','custom',path=best, source='local')
 model.cuda()
-#model.cpu() if without cuda
+#model.cpu() #if without cuda
 model.conf = 0.6
 
 pub = rospy.Publisher('/kinects/coordinate',cord, queue_size=100)
@@ -26,12 +26,8 @@ def process_image(msg):
         mess = cord()
         bridge = CvBridge()
         orig = bridge.imgmsg_to_cv2(msg, "bgr8")
-        print("scrivo su topic")
-        save_images=0
-
-        orig = ImageGrab.grab()
-        imwrite("/home/gio/desktop/prova.jpg",orig)
-
+        print("avvio riconoscimento\n")
+        
         results = model(orig, size=640)
         pandino=results.pandas().xyxy[0].to_dict(orient="records")
         for pand in pandino:
@@ -42,10 +38,10 @@ def process_image(msg):
             y2 = float(pand['ymax'])
             xc = float(((x2-x1)/2)+x1)
             yc = float(((y2-y1)/2)+y1)
-            mess.coordinate=[cs,x1,y1,x2,y2,xc,yc]
-                        
-            print(str(mess.coordinate))
+            mess.coordinate=[cs,xc,yc]
+            print(str(coordinate))
             try:
+                print("pubblico\n")
                 pub.publish(mess)
             except Exception as err:
                 print(err)
@@ -58,8 +54,8 @@ def process_image(msg):
 def start_node():
     rospy.init_node('detect_topic')
     rospy.loginfo('Aspetto l\'immagine')
-    rospy.Subscriber("/camera/color/image_raw", Image, process_image) #si iscrive al topic del kinectù
-    rospy.spinOnce() #Continua a ciclare, evita la chiusura del nodo
+    rospy.Subscriber("/camera/color/image_raw", Image, process_image) #si iscrive al topic del kinect
+    rospy.spin() #Continua a ciclare, evita la chiusura del nodo
     
 if __name__ == '__main__':
     try:
