@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find arm)/xacro/arm/ur5_robot.urdf.xacro' transmission_hw_interface:=hardware_interface/PositionJointInterface" />
-
-</launch>

@@ -11,13 +11,15 @@ import time
 import torch
 from detect.msg import cord
 from PIL import ImageGrab
+from pathlib import Path
 
-#change absolute path to your best.pt path
-best='/home/gio/Desktop/usiamo_questi.pt'
-model = torch.hub.load('/home/gio/yolov5','custom',path=best, source='local')
+path = Path(__file__).parent.absolute()
+best=str(path)+'/../usiamo_questi.pt'
+model = torch.hub.load(str(path)+'/../yolov5','custom',path=best, source='local')
 model.cuda()
 #model.cpu() #if without cuda
 model.conf = 0.6
+
 
 pub = rospy.Publisher('/kinects/coordinate',cord, queue_size=100)
 
@@ -39,7 +41,7 @@ def process_image(msg):
             xc = float(((x2-x1)/2)+x1)
             yc = float(((y2-y1)/2)+y1)
             mess.coordinate=[cs,xc,yc]
-            print(str(coordinate))
+            print(str(mess.coordinate))
             try:
                 print("pubblico\n")
                 pub.publish(mess)
