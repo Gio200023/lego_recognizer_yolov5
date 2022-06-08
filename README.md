@@ -28,9 +28,11 @@ The purpose of this repo is to recognize which of the several different Lego Blo
 
 Follow this [guide]() to setup the Gazebo_ros world and ros itself. 
 
-Clone this repository:
+Clone this repository and add yolov5 repository:
 ````
 git clone https://github.com/Gio200023/lego_recognizer_yolov5
+cd lego_recognizer_yolov5
+git clone https://github.com/ultralytics/yolov5
 ````
 
 After that you can now setup the catkin project.
