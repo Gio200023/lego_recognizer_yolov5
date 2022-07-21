@@ -10,16 +10,13 @@ import os
 import time
 import torch
 from detect.msg import cord
-from PIL import ImageGrab
-from pathlib import Path
+import rospkg
 
-path = Path(__file__).parent.absolute()
-best=str(path)+'/../usiamo_questi.pt'
-model = torch.hub.load(str(path)+'/../yolov5','custom',path=best, source='local')
-model.cuda()
-#model.cpu() #if without cuda
-model.conf = 0.6
-
+rospack = rospkg.RosPack()
+#change absolute path to your best.pt path
+ros_package = rospack.get_path('detect')
+path=os.path.join(ros_package,"nodes","usiamo_questi.pt")
+model = torch.hub.load('/home/gio/yolov5','custom',path=path, source='local')
 
 pub = rospy.Publisher('/kinects/coordinate',cord, queue_size=100)
 
@@ -28,9 +25,10 @@ def process_image(msg):
         mess = cord()
         bridge = CvBridge()
         orig = bridge.imgmsg_to_cv2(msg, "bgr8")
-        print("avvio riconoscimento\n")
-        
-        results = model(orig, size=640)
+        print("scrivo su topic")
+        save_images=0
+        model.conf =0.6
+        results = model(orig)
         pandino=results.pandas().xyxy[0].to_dict(orient="records")
         for pand in pandino:
             cs = float(pand['class'])
@@ -40,10 +38,10 @@ def process_image(msg):
             y2 = float(pand['ymax'])
             xc = float(((x2-x1)/2)+x1)
             yc = float(((y2-y1)/2)+y1)
-            mess.coordinate=[cs,xc,yc]
+            mess.coordinate=[cs,x1,y1,x2,y2,xc,yc]
+                        
             print(str(mess.coordinate))
             try:
-                print("pubblico\n")
                 pub.publish(mess)
             except Exception as err:
                 print(err)
@@ -56,7 +54,7 @@ def process_image(msg):
 def start_node():
     rospy.init_node('detect_topic')
     rospy.loginfo('Aspetto l\'immagine')
-    rospy.Subscriber("/camera/color/image_raw", Image, process_image) #si iscrive al topic del kinect
+    rospy.Subscriber("/camera/color/image_raw", Image, process_image) #si iscrive al topic del kinectù
     rospy.spin() #Continua a ciclare, evita la chiusura del nodo
     
 if __name__ == '__main__':
